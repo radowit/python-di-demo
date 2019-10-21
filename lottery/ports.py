@@ -1,3 +1,5 @@
+from dataclasses import asdict, astuple
+
 import requests
 
 
@@ -16,7 +18,7 @@ class FilePort:
 
     def save(self, ticket):
         with open(self._filename, "a") as file_desc:
-            file_desc.write(f"{ticket}\n")
+            file_desc.write("{0},{1}\n".format(*astuple(ticket)))
 
 
 class APIPort:
@@ -25,4 +27,4 @@ class APIPort:
         self.last_response = None
 
     def send(self, ticket):
-        self.last_response = requests.post(self._host, data={"ticket_no": ticket})
+        self.last_response = requests.post(self._host, data=asdict(ticket))

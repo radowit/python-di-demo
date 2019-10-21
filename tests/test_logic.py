@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from pytest import fixture
 
-from lottery.logic import LotteryLogic
+from lottery.logic import TicketGenerator, TicketSaver
 from lottery.ports import APIPort, FilePort, RandomPort
 
 
@@ -22,13 +22,13 @@ def dummy_file():
 
 
 def test_generate_ticket(dummy_random):
-    logic = LotteryLogic(api_port=None, file_port=None, random_port=dummy_random)
+    logic = TicketGenerator(random_port=dummy_random)
 
-    assert logic.generate_ticket() == 527
+    assert logic.generate_ticket().ticket_id == 527
 
 
 def test_send(dummy_api, dummy_file):
-    logic = LotteryLogic(api_port=dummy_api, file_port=dummy_file, random_port=None)
+    logic = TicketSaver(api_port=dummy_api, file_port=dummy_file)
 
     logic.save_ticket(527)
 
