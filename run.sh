@@ -1,1 +1,1 @@
-env FLASK_APP=lottery.lottery flask run
+env FLASK_APP=lottery.api flask run
